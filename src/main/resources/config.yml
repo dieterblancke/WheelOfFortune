@@ -1,0 +1,11 @@
+
+events:
+  - name: 'CHANGE_WORLD_DIFFICULTY'
+    item:
+      # 1.13 and up, for colored class you should for example use YELLOW_STAINED_GLASS, under you should use STAINED_GLASS:4
+      material: 'GRASS'
+      name: '&eChange world difficulty'
+      lore:
+        - '&eChanges difficulty of all worlds to'
+        - '&bHARD &efor &b30 minutes&e!'
+    script: 'changediff.js'

@@ -1,0 +1,4 @@
+name: DangerWheel
+main: com.dbsoftwares.dangerwheel.DangerWheel
+version: ${project.version}
+authors: [didjee2]
