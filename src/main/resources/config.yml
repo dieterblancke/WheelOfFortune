@@ -1,3 +1,9 @@
+hologram:
+  wheel:
+    height: 25
+    width: 25
+    sectors: 12
+
 
 events:
   - name: 'CHANGE_WORLD_DIFFICULTY'
