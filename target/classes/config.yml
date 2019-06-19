@@ -1,3 +1,14 @@
+hologram:
+  wheel:
+    height: 25
+    width: 25
+    sectors: 12
+
+messages:
+  prefix: '&c&lDangerWheel &8»'
+
+  reloaded: '&eConfiguration file and event scripts have been reloaded.'
+  not-for-console: '&eThe console cannot execute this command.'
 
 events:
   - name: 'CHANGE_WORLD_DIFFICULTY'

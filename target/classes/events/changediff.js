@@ -3,24 +3,22 @@ var oldWorlds = {};
 function execute() {
     updateDifficulties();
 
-    var Runnable = Java.type('java.lang.Runnable');
-    var runnable = Java.extend(Runnable, {
-        run: function () {
-            var worldNames = Object.keys(oldWorlds);
-            var worldNamesSize = worldNames.length;
+    var BukkitRunnable = Java.type('org.bukkit.scheduler.BukkitRunnable');
+    var runnable = new BukkitRunnable(function () {
+        var worldNames = Object.keys(oldWorlds);
+        var worldNamesSize = worldNames.length;
 
-            for (var i = 0; i < worldNamesSize; i++) {
-                var worldName = worldNames[i];
-                var world = server.getWorld(worldName);
+        for (var i = 0; i < worldNamesSize; i++) {
+            var worldName = worldNames[i];
+            var world = server.getWorld(worldName);
 
-                world.setDifficulty(oldWorlds[worldName]);
-                server.broadcastMessage("Updating difficulty of " + world.getName() + " to " + oldWorlds[worldName] + "!");
-            }
+            world.setDifficulty(oldWorlds[worldName]);
+            server.broadcastMessage("Updating difficulty of " + world.getName() + " to " + oldWorlds[worldName] + "!");
         }
     });
 
     // 36000 = 30 * 60 * 20 (to get ticks in 30 min)
-    server.getScheduler().runTaskLater(plugin, runnable, 100);
+    runnable.runTaskLater(plugin, 100);
 }
 
 function updateDifficulties() {
@@ -33,7 +31,7 @@ function updateDifficulties() {
         var difficulty = Java.type("org.bukkit.Difficulty");
         world.setDifficulty(difficulty.HARD);
 
-        server.broadcastMessage("Updating difficulty of " + world.getName() + " to " + difficulty + "!");
+        server.broadcastMessage("Updating difficulty of " + world.getName() + " to " + difficulty.HARD + "!");
     }
 }
 

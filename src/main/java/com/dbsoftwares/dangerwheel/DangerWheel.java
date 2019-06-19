@@ -5,11 +5,14 @@ import com.dbsoftwares.configuration.api.IConfiguration;
 import com.dbsoftwares.dangerwheel.commands.DangerWheelCommand;
 import com.dbsoftwares.dangerwheel.script.Script;
 import com.dbsoftwares.dangerwheel.script.ScriptData;
+import com.gmail.filoghost.holographicdisplays.api.Hologram;
+import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
 import com.google.common.collect.Lists;
 import lombok.Getter;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import javax.script.ScriptException;
 import java.io.File;
 import java.io.IOException;
@@ -34,25 +37,33 @@ public class DangerWheel extends JavaPlugin {
     public void onEnable() {
         instance = this;
 
-        final File configFile = new File(getDataFolder(), "config.yml");
-        if (!configFile.exists()) {
-            IConfiguration.createDefaultFile(getResource("config.yml"), configFile);
-        }
-        configuration = IConfiguration.loadYamlConfiguration(configFile);
-
-        loadScripts();
+        this.loadConfiguration();
+        this.loadScripts();
 
         CommandManager.getInstance().registerCommand(new DangerWheelCommand());
     }
 
     @Override
     public void onDisable() {
+        unload();
+    }
 
+    public void reload() {
+        unload();
+
+        this.loadConfiguration();
+        this.loadScripts();
+    }
+
+    private void unload() {
+        // First adding all holograms in new list to assure no ConcurrentModificationExceptions get raised.
+        Lists.newArrayList(HologramsAPI.getHolograms(this)).forEach(Hologram::delete);
+
+        scripts.forEach(ScriptData::unload);
+        scripts.clear();
     }
 
     private void loadScripts() {
-        scripts.forEach(ScriptData::unload);
-        scripts.clear();
         final File scriptsFolder = new File(getDataFolder(), "events");
 
         if (!scriptsFolder.exists()) {
@@ -81,5 +92,13 @@ public class DangerWheel extends JavaPlugin {
                 log.error("Could not load script " + file.getName(), e);
             }
         });
+    }
+
+    private void loadConfiguration() {
+        final File configFile = new File(getDataFolder(), "config.yml");
+        if (!configFile.exists()) {
+            IConfiguration.createDefaultFile(getResource("config.yml"), configFile);
+        }
+        configuration = IConfiguration.loadYamlConfiguration(configFile);
     }
 }
