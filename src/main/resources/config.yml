@@ -24,6 +24,10 @@ hologram:
     # this should NEVER be higher then the amount of colors configured above
     sectors: 12
 
+sounds:
+  tick: 'BLOCK_NOTE_BLOCK_PLING'
+  finish: 'ENTITY_FIREWORK_ROCKET_LARGE_BLAST_FAR'
+
 messages:
   prefix: '&c&lDangerWheel &8» '
 

@@ -9,6 +9,8 @@ import com.gmail.filoghost.holographicdisplays.api.Hologram;
 import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
 import com.google.common.collect.Lists;
 import lombok.Getter;
+import net.md_5.bungee.api.ChatColor;
+import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,12 +35,14 @@ public class DangerWheel extends JavaPlugin {
     @Getter
     private List<ScriptData> scripts = Lists.newArrayList();
 
+    @Getter
+    private List<ChatColor> colors = Lists.newArrayList();
+
     @Override
     public void onEnable() {
         instance = this;
 
         this.loadConfiguration();
-        this.loadScripts();
 
         CommandManager.getInstance().registerCommand(new DangerWheelCommand());
     }
@@ -52,15 +56,27 @@ public class DangerWheel extends JavaPlugin {
         unload();
 
         this.loadConfiguration();
-        this.loadScripts();
     }
 
     private void unload() {
+        Bukkit.getScheduler().cancelTasks(this);
         // First adding all holograms in new list to assure no ConcurrentModificationExceptions get raised.
         Lists.newArrayList(HologramsAPI.getHolograms(this)).forEach(Hologram::delete);
 
         scripts.forEach(ScriptData::unload);
         scripts.clear();
+        colors.clear();
+    }
+
+    private void loadConfiguration() {
+        final File configFile = new File(getDataFolder(), "config.yml");
+        if (!configFile.exists()) {
+            IConfiguration.createDefaultFile(getResource("config.yml"), configFile);
+        }
+        configuration = IConfiguration.loadYamlConfiguration(configFile);
+
+        this.loadScripts();
+        this.loadColors();
     }
 
     private void loadScripts() {
@@ -94,11 +110,15 @@ public class DangerWheel extends JavaPlugin {
         });
     }
 
-    private void loadConfiguration() {
-        final File configFile = new File(getDataFolder(), "config.yml");
-        if (!configFile.exists()) {
-            IConfiguration.createDefaultFile(getResource("config.yml"), configFile);
-        }
-        configuration = IConfiguration.loadYamlConfiguration(configFile);
+    private void loadColors() {
+        final List<String> colorList = configuration.getStringList("colors");
+
+        colorList.stream()
+                .map(color -> ChatColor.valueOf(color.toUpperCase()))
+                .forEach(color -> {
+                    if (!this.colors.contains(color)) {
+                        this.colors.add(color);
+                    }
+                });
     }
 }
