@@ -1,24 +1,22 @@
-package com.dbsoftwares.dangerwheel.hologram;
+package com.dbsoftwares.dangerwheel.wheel;
 
-import com.dbsoftwares.dangerwheel.DangerWheel;
+import com.dbsoftwares.dangerwheel.utils.objects.CircleColor;
 import com.google.common.collect.Lists;
-import net.md_5.bungee.api.ChatColor;
-
 import java.util.Collections;
 import java.util.List;
 
-public class HologramCircle {
+public class WheelCircle {
 
-    private final List<ChatColor> colors;
+    private final List<CircleColor> colors;
     private final int height;
     private final int width;
     private final int sectors;
 
-    public HologramCircle(final int height, final int width, final int sectors) {
-        if (sectors > DangerWheel.getInstance().getColors().size()) {
+    public WheelCircle(final int height, final int width, final int sectors) {
+        if (sectors > CircleColor.values().length) {
             throw new RuntimeException("There cannot be more sectors then colors ...");
         }
-        final List<ChatColor> colorsCopy = Lists.newArrayList(DangerWheel.getInstance().getColors());
+        final List<CircleColor> colorsCopy = Lists.newArrayList(CircleColor.values());
         Collections.shuffle(colorsCopy);
 
         this.colors = colorsCopy.subList(0, sectors);
@@ -32,7 +30,7 @@ public class HologramCircle {
         Collections.rotate(colors, 1);
     }
 
-    public List<String> getLines() {
+    public List<List<CircleColor>> getLines() {
         final float width_r = (float) width / 2;
         final float height_r = (float) height / 2;
         final float ratio = width_r / height_r;
@@ -52,20 +50,19 @@ public class HologramCircle {
             maxblocks_y = Math.ceil(height_r) * 2;
         }
 
-        final List<String> lines = Lists.newArrayList();
+        final List<List<CircleColor>> lines = Lists.newArrayList();
 
         for (double y = -maxblocks_y / 2 + 1; y <= maxblocks_y / 2 - 1; y++) {
-            final StringBuilder line = new StringBuilder();
+            final List<CircleColor> line = Lists.newArrayList();
 
             for (double x = -maxblocks_x / 2 + 1; x <= maxblocks_x / 2 - 1; x++) {
                 if (shouldBeFilled(x, y, width_r, ratio)) {
                     final int sector = getSectorNumber(x, y);
 
-                    line.append(colors.get(sector).toString());
-                    line.append("█");
+                    line.add(colors.get(sector));
                 }
             }
-            lines.add(line.toString());
+            lines.add(line);
         }
         return lines;
     }
@@ -98,6 +95,6 @@ public class HologramCircle {
     public String getCurrentTopSector() {
         final int sector = 2;
 
-        return "{\"id\": " + sector + ", \"color\": \"" + this.colors.get(sector).getName() + "\"}";
+        return "{\"id\": " + sector + ", \"color\": \"" + this.colors.get(sector).toString() + "\"}";
     }
 }

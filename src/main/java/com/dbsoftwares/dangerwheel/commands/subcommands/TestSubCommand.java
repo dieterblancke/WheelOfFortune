@@ -2,7 +2,7 @@ package com.dbsoftwares.dangerwheel.commands.subcommands;
 
 import com.dbsoftwares.commandapi.command.SubCommand;
 import com.dbsoftwares.dangerwheel.DangerWheel;
-import com.dbsoftwares.dangerwheel.hologram.HologramManager;
+import com.dbsoftwares.dangerwheel.wheel.managers.HologramManager;
 import com.dbsoftwares.dangerwheel.utils.Utils;
 import com.google.common.collect.ImmutableList;
 import org.bukkit.command.CommandSender;
@@ -30,7 +30,7 @@ public class TestSubCommand extends SubCommand {
     public void onExecute(Player player, String[] args) {
         DangerWheel.getInstance().getScripts().forEach(script -> script.getScript().execute(player));
 
-        new HologramManager(player.getLocation().add(0, 5, 0)).spawnHologram();
+        new HologramManager(player.getLocation().add(0, 5, 0)).spawn();
     }
 
     @Override

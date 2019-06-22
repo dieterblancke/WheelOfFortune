@@ -35,9 +35,6 @@ public class DangerWheel extends JavaPlugin {
     @Getter
     private List<ScriptData> scripts = Lists.newArrayList();
 
-    @Getter
-    private List<ChatColor> colors = Lists.newArrayList();
-
     @Override
     public void onEnable() {
         instance = this;
@@ -65,7 +62,6 @@ public class DangerWheel extends JavaPlugin {
 
         scripts.forEach(ScriptData::unload);
         scripts.clear();
-        colors.clear();
     }
 
     private void loadConfiguration() {
@@ -76,7 +72,6 @@ public class DangerWheel extends JavaPlugin {
         configuration = IConfiguration.loadYamlConfiguration(configFile);
 
         this.loadScripts();
-        this.loadColors();
     }
 
     private void loadScripts() {
@@ -108,17 +103,5 @@ public class DangerWheel extends JavaPlugin {
                 log.error("Could not load script " + file.getName(), e);
             }
         });
-    }
-
-    private void loadColors() {
-        final List<String> colorList = configuration.getStringList("colors");
-
-        colorList.stream()
-                .map(color -> ChatColor.valueOf(color.toUpperCase()))
-                .forEach(color -> {
-                    if (!this.colors.contains(color)) {
-                        this.colors.add(color);
-                    }
-                });
     }
 }
