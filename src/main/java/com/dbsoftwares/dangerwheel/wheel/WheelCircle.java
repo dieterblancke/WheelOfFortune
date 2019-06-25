@@ -1,7 +1,10 @@
 package com.dbsoftwares.dangerwheel.wheel;
 
+import com.dbsoftwares.dangerwheel.DangerWheel;
+import com.dbsoftwares.dangerwheel.script.ScriptData;
 import com.dbsoftwares.dangerwheel.utils.objects.CircleColor;
 import com.google.common.collect.Lists;
+
 import java.util.Collections;
 import java.util.List;
 
@@ -92,9 +95,9 @@ public class WheelCircle {
         return distance(x, y, ratio) <= radius;
     }
 
-    public String getCurrentTopSector() {
-        final int sector = 2;
+    public ScriptData getScriptDataFinish() {
+        final CircleColor color = this.colors.get(2);
 
-        return "{\"id\": " + sector + ", \"color\": \"" + this.colors.get(sector).toString() + "\"}";
+        return DangerWheel.getInstance().getColorEvents().getOrDefault(color, null);
     }
 }

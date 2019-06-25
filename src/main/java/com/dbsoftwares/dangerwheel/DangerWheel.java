@@ -5,11 +5,12 @@ import com.dbsoftwares.configuration.api.IConfiguration;
 import com.dbsoftwares.dangerwheel.commands.DangerWheelCommand;
 import com.dbsoftwares.dangerwheel.script.Script;
 import com.dbsoftwares.dangerwheel.script.ScriptData;
+import com.dbsoftwares.dangerwheel.utils.objects.CircleColor;
 import com.gmail.filoghost.holographicdisplays.api.Hologram;
 import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import lombok.Getter;
-import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.slf4j.Logger;
@@ -20,6 +21,8 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.List;
+import java.util.Map;
+import java.util.Random;
 
 public class DangerWheel extends JavaPlugin {
 
@@ -35,11 +38,15 @@ public class DangerWheel extends JavaPlugin {
     @Getter
     private List<ScriptData> scripts = Lists.newArrayList();
 
+    @Getter
+    private Map<CircleColor, ScriptData> colorEvents = Maps.newHashMap();
+
     @Override
     public void onEnable() {
         instance = this;
 
         this.loadConfiguration();
+        this.loadColorEvents();
 
         CommandManager.getInstance().registerCommand(new DangerWheelCommand());
     }
@@ -88,6 +95,7 @@ public class DangerWheel extends JavaPlugin {
         configuration.getSectionList("events").forEach(section -> {
             final String name = section.getString("name");
             final String scriptName = section.getString("script");
+            final CircleColor color = CircleColor.valueOf(section.getString("color"));
             final File file = new File(scriptsFolder, scriptName);
 
             try {
@@ -96,12 +104,26 @@ public class DangerWheel extends JavaPlugin {
 
                 this.scripts.add(new ScriptData(
                         name,
-                        null,
-                        script
+                        script,
+                        color
                 ));
             } catch (IOException | ScriptException e) {
                 log.error("Could not load script " + file.getName(), e);
             }
         });
+    }
+
+    private void loadColorEvents() {
+        if (scripts.isEmpty()) {
+            return;
+        }
+        final Random random = new Random();
+        scripts.forEach(script -> colorEvents.put(script.getColor(), script));
+
+        for (CircleColor color : CircleColor.values()) {
+            if (!colorEvents.containsKey(color)) {
+                colorEvents.put(color, scripts.get(random.nextInt(scripts.size())));
+            }
+        }
     }
 }

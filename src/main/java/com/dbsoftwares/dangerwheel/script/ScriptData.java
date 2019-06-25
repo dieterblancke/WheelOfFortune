@@ -1,16 +1,16 @@
 package com.dbsoftwares.dangerwheel.script;
 
+import com.dbsoftwares.dangerwheel.utils.objects.CircleColor;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import org.bukkit.inventory.ItemStack;
 
 @Data
 @AllArgsConstructor
 public class ScriptData {
 
     private String name;
-    private ItemStack item;
     private Script script;
+    private CircleColor color;
 
     public void unload() {
         script.unload();

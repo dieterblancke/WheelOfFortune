@@ -81,12 +81,10 @@ public class Script {
         return engine;
     }
 
-    public String execute(final Player p) {
+    public String execute() {
         final String script = Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")
-                ? me.clip.placeholderapi.PlaceholderAPI.setPlaceholders(p, this.script)
+                ? me.clip.placeholderapi.PlaceholderAPI.setPlaceholders(null, this.script)
                 : this.script;
-
-        engine.put("player", p);
 
         try {
             return String.valueOf(engine.eval(script));
