@@ -5,40 +5,38 @@ import com.dbsoftwares.configuration.api.ISection;
 import com.dbsoftwares.dangerwheel.DangerWheel;
 import com.dbsoftwares.dangerwheel.utils.Utils;
 import com.dbsoftwares.dangerwheel.wheel.WheelManager;
-import com.dbsoftwares.dangerwheel.wheel.hologram.HologramManager;
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Lists;
-import lombok.Getter;
 import org.bukkit.Bukkit;
-import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.List;
 
-public class TestSubCommand extends SubCommand {
+public class SpinSubCommand extends SubCommand {
 
-    @Getter
-    private static final List<WheelManager> managers = Lists.newArrayList();
-
-    public TestSubCommand() {
-        super("test", 0);
+    public SpinSubCommand() {
+        super("spin", 0);
     }
 
     @Override
     public String getUsage() {
-        return "/dangerwheel test";
+        return "/dangerwheel spin";
     }
 
     @Override
     public String getPermission() {
-        return "dangerwheel.test";
+        return "dangerwheel.spin";
     }
 
     @Override
     public void onExecute(Player player, String[] args) {
-        final Location location = player.getLocation().add(0, 5, 0);
+        final WheelManager manager = DangerWheel.getInstance().getWheelManager();
+
+        if (manager == null) {
+            player.sendMessage(Utils.getMessage("wheel.no-wheel"));
+            return;
+        }
         final int delay = DangerWheel.getInstance().getConfiguration().getInteger("wheel.delay");
 
         new BukkitRunnable() {
@@ -50,13 +48,10 @@ public class TestSubCommand extends SubCommand {
                 final ISection section = DangerWheel.getInstance().getConfiguration().getSection("messages.wheel.starting");
 
                 if (runs <= 0) {
-                    final WheelManager manager = new HologramManager(location);
-                    manager.spawnStandard();
                     manager.spawn();
                     cancel();
 
                     Bukkit.broadcastMessage(Utils.c(section.getString("starting")));
-                    managers.add(manager);
                 } else {
                     String broadcast;
 

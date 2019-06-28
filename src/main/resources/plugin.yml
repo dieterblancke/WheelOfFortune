@@ -1,4 +1,6 @@
 name: DangerWheel
 main: com.dbsoftwares.dangerwheel.DangerWheel
 version: ${project.version}
-authors: [didjee2]
+author: didjee2
+softdepend:
+  - HolographicDisplays

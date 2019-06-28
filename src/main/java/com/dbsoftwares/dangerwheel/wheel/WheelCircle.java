@@ -33,6 +33,43 @@ public class WheelCircle {
         Collections.rotate(colors, 1);
     }
 
+    public List<List<CircleColor>> getBlankLines() {
+        final float width_r = (float) width / 2;
+        final float height_r = (float) height / 2;
+        final float ratio = width_r / height_r;
+
+        final double maxblocks_x;
+        final double maxblocks_y;
+
+        if ((width_r * 2) % 2 == 0) {
+            maxblocks_x = Math.ceil(width_r - .5) * 2 + 1;
+        } else {
+            maxblocks_x = Math.ceil(width_r) * 2;
+        }
+
+        if ((height_r * 2) % 2 == 0) {
+            maxblocks_y = Math.ceil(height_r - .5) * 2 + 1;
+        } else {
+            maxblocks_y = Math.ceil(height_r) * 2;
+        }
+
+        final List<List<CircleColor>> lines = Lists.newArrayList();
+
+        for (double y = -maxblocks_y / 2 + 1; y <= maxblocks_y / 2 - 1; y++) {
+            final List<CircleColor> line = Lists.newArrayList();
+
+            for (double x = -maxblocks_x / 2 + 1; x <= maxblocks_x / 2 - 1; x++) {
+                if (shouldBeFilled(x, y, width_r, ratio)) {
+                    final int sector = getSectorNumber(x, y);
+
+                    line.add(CircleColor.WHITE);
+                }
+            }
+            lines.add(line);
+        }
+        return lines;
+    }
+
     public List<List<CircleColor>> getLines() {
         final float width_r = (float) width / 2;
         final float height_r = (float) height / 2;

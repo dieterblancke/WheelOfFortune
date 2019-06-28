@@ -7,6 +7,7 @@ import com.dbsoftwares.dangerwheel.utils.objects.CircleColor;
 import com.dbsoftwares.dangerwheel.utils.objects.WheelRun;
 import com.dbsoftwares.dangerwheel.utils.objects.WheelRunData;
 import com.dbsoftwares.dangerwheel.wheel.WheelCircle;
+import com.dbsoftwares.dangerwheel.wheel.WheelManager;
 import com.gmail.filoghost.holographicdisplays.api.Hologram;
 import com.gmail.filoghost.holographicdisplays.api.line.TextLine;
 import lombok.RequiredArgsConstructor;
@@ -19,9 +20,11 @@ import java.util.List;
 @RequiredArgsConstructor
 public class HologramWheelTask extends BukkitRunnable {
 
+    private final WheelManager manager;
     private final Hologram hologram;
     private final WheelCircle circle;
     private final WheelRunData runData;
+    private final int startIdx;
 
     private int ticks = 0;
     private int runs = 0;
@@ -39,15 +42,11 @@ public class HologramWheelTask extends BukkitRunnable {
         circle.moveColors();
         final List<List<CircleColor>> lines = circle.getLines();
 
-        if (hologram.size() == 0) {
-            lines.forEach(line -> hologram.appendTextLine(buildLine(line)));
-        } else {
-            for (int i = 0; i < lines.size(); i++) {
-                final String line = buildLine(lines.get(i));
-                final TextLine textLine = (TextLine) hologram.getLine(i);
+        for (int i = 0; i < lines.size(); i++) {
+            final String line = buildLine(lines.get(i));
+            final TextLine textLine = (TextLine) hologram.getLine(i + startIdx);
 
-                textLine.setText(line);
-            }
+            textLine.setText(line);
         }
         hologram.getWorld().playSound(
                 hologram.getLocation(),
@@ -72,6 +71,7 @@ public class HologramWheelTask extends BukkitRunnable {
                 Bukkit.broadcastMessage(Utils.getMessage("wheel.event").replace("{eventName}", data.getName()));
                 data.getScript().execute();
             }
+            manager.spawnStandard();
             cancel();
         }
     }

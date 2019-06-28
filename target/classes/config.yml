@@ -5,8 +5,23 @@ wheel:
   # this should NEVER be higher then the amount of colors configured above
   sectors: 12
 
+  # Amount of seconds until the wheel starts spinning after executing the command.
+  delay: 10
+
   hologram:
     icon: '█'
+
+    header:
+      - '&4▇▇▇    '
+      - '&4▇    '
+      - ''
+    footer:
+      - ''
+      - '&eYou can spin this wheel to possibly get some nice rewards,'
+      - '&ebut beware! This wheel can have some &cdangerous tendencies&e!'
+      - ''
+      - '&b&lLegenda:'
+      - '&e█ Changes World Difficulty   &r-   &b█ Nobody knows o_O'
 
   block:
     schematic: 'path/to/schematic'
@@ -46,16 +61,29 @@ sounds:
 messages:
   prefix: '&c&lDangerWheel &8» '
 
-  reloaded: '&eConfiguration file and event scripts have been reloaded.'
   not-for-console: '&eThe console cannot execute this command.'
+  wheel:
+    no-wheel: '&eThere is no wheel that can be started! &bPlease contact an administrator for this.'
+    starting:
+      starting: '&eThe wheel of danger will now start.'
+      default: '&e{timer} ...'
+      '10': '&eThe wheel of danger will start in &b10 seconds&e.'
+      '9': ''
+      '8': ''
+      '7': ''
+      '6': ''
+    no-event: '&eThe wheel of danger ended on nothing this time around ...'
+    event: '&eThe wheel of danger ended on &b{eventName}&e.'
 
+  admin:
+    reloaded: '&eConfiguration file and event scripts have been reloaded.'
+    location-set: '&eThe danger wheel location has been set!'
+    error: '&cAn error occured, please &4check the console &cfor more info!'
+
+# Every color that does not have an event bound to it will have a random event from this list.
 events:
-  - name: 'CHANGE_WORLD_DIFFICULTY'
-    item:
-      # 1.13 and up, for colored class you should for example use YELLOW_STAINED_GLASS, under you should use STAINED_GLASS:4
-      material: 'GRASS'
-      name: '&eChange world difficulty'
-      lore:
-        - '&eChanges difficulty of all worlds to'
-        - '&bHARD &efor &b30 minutes&e!'
+  - name: 'Change World Difficulty'
     script: 'changediff.js'
+    # List of available colors can be found at:
+    # https://git.dbsoftwares.eu/dbsoftwares/dangerwheel/blob/master/src/main/java/com/dbsoftwares/dangerwheel/utils/objects/CircleColor.java
+    color: 'YELLOW'

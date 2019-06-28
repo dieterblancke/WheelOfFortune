@@ -38,5 +38,9 @@ public abstract class WheelManager {
         });
     }
 
+    public abstract void spawnStandard();
+
     public abstract void spawn();
+
+    public abstract void despawn();
 }

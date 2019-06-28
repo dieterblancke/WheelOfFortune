@@ -3,15 +3,16 @@ package com.dbsoftwares.dangerwheel;
 import com.dbsoftwares.commandapi.CommandManager;
 import com.dbsoftwares.configuration.api.IConfiguration;
 import com.dbsoftwares.dangerwheel.commands.DangerWheelCommand;
+import com.dbsoftwares.dangerwheel.commands.subcommands.TestSubCommand;
 import com.dbsoftwares.dangerwheel.script.Script;
 import com.dbsoftwares.dangerwheel.script.ScriptData;
 import com.dbsoftwares.dangerwheel.utils.objects.CircleColor;
-import com.gmail.filoghost.holographicdisplays.api.Hologram;
-import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
+import com.dbsoftwares.dangerwheel.wheel.WheelManager;
+import com.dbsoftwares.dangerwheel.wheel.hologram.HologramManager;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import lombok.Getter;
-import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,10 +37,16 @@ public class DangerWheel extends JavaPlugin {
     private IConfiguration configuration;
 
     @Getter
+    private IConfiguration dataConfig;
+
+    @Getter
     private List<ScriptData> scripts = Lists.newArrayList();
 
     @Getter
     private Map<CircleColor, ScriptData> colorEvents = Maps.newHashMap();
+
+    @Getter
+    private WheelManager wheelManager;
 
     @Override
     public void onEnable() {
@@ -63,9 +70,10 @@ public class DangerWheel extends JavaPlugin {
     }
 
     private void unload() {
-        Bukkit.getScheduler().cancelTasks(this);
-        // First adding all holograms in new list to assure no ConcurrentModificationExceptions get raised.
-        Lists.newArrayList(HologramsAPI.getHolograms(this)).forEach(Hologram::delete);
+        wheelManager.despawn();
+
+        TestSubCommand.getManagers().forEach(WheelManager::despawn);
+        TestSubCommand.getManagers().clear();
 
         scripts.forEach(ScriptData::unload);
         scripts.clear();
@@ -78,7 +86,35 @@ public class DangerWheel extends JavaPlugin {
         }
         configuration = IConfiguration.loadYamlConfiguration(configFile);
 
+        final File dataFile = new File(getDataFolder(), "data.yml");
+        if (!configFile.exists()) {
+            try {
+                dataFile.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        dataConfig = IConfiguration.loadYamlConfiguration(dataFile);
+
         this.loadScripts();
+        this.loadWheel();
+    }
+
+    private void loadWheel() {
+        if (!dataConfig.exists("locations.wheel")) {
+            return;
+        }
+
+        final boolean hologram = configuration.getString("wheel.type").equalsIgnoreCase("hologram");
+        final Location location = dataConfig.spigot().getLocation("locations.wheel");
+
+        if (hologram) {
+            this.wheelManager = new HologramManager(location);
+        } else {
+            // TODO: make BlockManager
+        }
+
+        this.wheelManager.spawnStandard();
     }
 
     private void loadScripts() {

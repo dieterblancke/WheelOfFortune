@@ -1,40 +1,48 @@
 package com.dbsoftwares.dangerwheel.commands.subcommands;
 
 import com.dbsoftwares.commandapi.command.SubCommand;
+import com.dbsoftwares.configuration.api.IConfiguration;
 import com.dbsoftwares.dangerwheel.DangerWheel;
 import com.dbsoftwares.dangerwheel.utils.Utils;
 import com.google.common.collect.ImmutableList;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.io.IOException;
 import java.util.List;
 
-public class ReloadSubCommand extends SubCommand {
+public class SetWheelLocationSubCommand extends SubCommand {
 
-    public ReloadSubCommand() {
-        super("reload", 0);
+    public SetWheelLocationSubCommand() {
+        super("setwheellocation", 0);
     }
 
     @Override
     public String getUsage() {
-        return "/dangerwheel reload";
+        return "/dangerwheel setwheellocation";
     }
 
     @Override
     public String getPermission() {
-        return "dangerwheel.reload";
+        return "dangerwheel.setwheellocation";
     }
 
     @Override
     public void onExecute(Player player, String[] args) {
-        onExecute((CommandSender) player, args);
+        final IConfiguration config = DangerWheel.getInstance().getDataConfig();
+
+        config.set("locations.wheel", player.getLocation());
+        try {
+            config.save();
+            player.sendMessage(Utils.getMessage("admin.location-set"));
+        } catch (IOException e) {
+            player.sendMessage(Utils.getMessage("admin.error"));
+        }
     }
 
     @Override
     public void onExecute(CommandSender sender, String[] args) {
-        DangerWheel.getInstance().reload();
-
-        sender.sendMessage(Utils.getMessage("admin.reloaded"));
+        sender.sendMessage(Utils.getMessage("not-for-console"));
     }
 
     @Override
