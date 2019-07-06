@@ -5,6 +5,9 @@ wheel:
   # this should NEVER be higher then 15 (as there are only 15 colors)
   sectors: 12
 
+  # The sector that is the winning sector, 2 is recommended for hologram.
+  winning-sector: 2
+
   # Amount of seconds until the wheel starts spinning after executing the command.
   delay: 10
 
@@ -46,7 +49,7 @@ messages:
       '7': ''
       '6': ''
     no-event: '&eThe wheel of danger ended on nothing this time around ...'
-    event: '&eThe wheel of danger ended on &b{eventName}&e.'
+    event: '&eThe wheel of danger ended on {color} &ewith &b{eventName}&e.'
 
   admin:
     reloaded: '&eConfiguration file and event scripts have been reloaded.'

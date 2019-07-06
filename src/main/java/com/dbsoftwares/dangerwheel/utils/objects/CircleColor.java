@@ -1,8 +1,11 @@
 package com.dbsoftwares.dangerwheel.utils.objects;
 
 import com.dbsoftwares.dangerwheel.DangerWheel;
+import com.google.common.collect.Lists;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Material;
+
+import java.util.List;
 
 public enum CircleColor {
 
@@ -30,6 +33,16 @@ public enum CircleColor {
 
     public ChatColor getChatColor() {
         return ChatColor.valueOf(toString());
+    }
+
+    public String beautifiedName() {
+        final List<String> result = Lists.newArrayList();
+
+        for (String part : toString().split("_")) {
+            result.add(part.charAt(0) + part.substring(1).toLowerCase());
+        }
+
+        return getChatColor().toString() + String.join(" ", result);
     }
 
     public String getAsText() {

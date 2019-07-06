@@ -68,10 +68,21 @@ public class HologramWheelTask extends BukkitRunnable {
             if (data == null) {
                 Bukkit.broadcastMessage(Utils.getMessage("wheel.no-event"));
             } else {
-                Bukkit.broadcastMessage(Utils.getMessage("wheel.event").replace("{eventName}", data.getName()));
+                Bukkit.broadcastMessage(
+                        Utils.getMessage("wheel.event")
+                                .replace("{eventName}", data.getName())
+                                .replace("{color}", circle.finishColor().beautifiedName())
+                );
                 data.getScript().execute();
             }
-            manager.spawnStandard();
+            new BukkitRunnable() {
+
+                @Override
+                public void run() {
+                    manager.spawnStandard();
+                }
+
+            }.runTaskLater(DangerWheel.getInstance(), 200);
             cancel();
         }
     }

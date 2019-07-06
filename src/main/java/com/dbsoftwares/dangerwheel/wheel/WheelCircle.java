@@ -131,8 +131,14 @@ public class WheelCircle {
     }
 
     public ScriptData getScriptDataFinish() {
-        final CircleColor color = this.colors.get(2);
+        final int sector = DangerWheel.getInstance().getConfiguration().getInteger("wheel.winning-sector");
+        final CircleColor color = this.colors.get(sector);
 
         return DangerWheel.getInstance().getColorEvents().getOrDefault(color, null);
+    }
+
+    public CircleColor finishColor() {
+        final int sector = DangerWheel.getInstance().getConfiguration().getInteger("wheel.winning-sector");
+        return this.colors.get(sector);
     }
 }
