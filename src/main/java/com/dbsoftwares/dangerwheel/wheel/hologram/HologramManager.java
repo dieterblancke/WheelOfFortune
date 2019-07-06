@@ -39,7 +39,7 @@ public class HologramManager extends WheelManager {
 
         final IConfiguration config = DangerWheel.getInstance().getConfiguration();
         final ISection section = config.getSection("wheel");
-        hologram = HologramsAPI.createHologram(DangerWheel.getInstance(), location.get());
+        hologram = HologramsAPI.createHologram(DangerWheel.getInstance(), location);
 
         final WheelCircle wheelCircle = new WheelCircle(
                 section.getInteger("height"),

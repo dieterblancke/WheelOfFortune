@@ -2,7 +2,7 @@ wheel:
   type: HOLOGRAM
   height: 25
   width: 25
-  # this should NEVER be higher then the amount of colors configured above
+  # this should NEVER be higher then 15 (as there are only 15 colors)
   sectors: 12
 
   # Amount of seconds until the wheel starts spinning after executing the command.
@@ -24,35 +24,8 @@ wheel:
       - '&e█ Changes World Difficulty   &r-   &b█ Nobody knows o_O'
 
   block:
-    schematic: 'path/to/schematic'
     # Possible types: TERRACOTTA, WOOL, STAINED_GLASS, CONCRETE, GLAZED_TERRACOTTA
     type: 'TERRACOTTA'
-
-  runs:
-    - max-runs: 40
-      default-tick-duration: 10
-      runs:
-        - first: 1
-          last: 20
-          tick-duration: 10
-        - first: 20
-          last: 30
-          tick-duration: 15
-        - first: 30
-          last: 35
-          tick-duration: 20
-        - first: 35
-          last: 37
-          tick-duration: 25
-        - first: 37
-          last: 38
-          tick-duration: 30
-        - first: 38
-          last: 39
-          tick-duration: 35
-        - first: 39
-          last: 40
-          tick-duration: 40
 
 sounds:
   tick: 'BLOCK_NOTE_BLOCK_PLING'

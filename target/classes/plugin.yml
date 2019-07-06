@@ -4,3 +4,4 @@ version: 0.0.2
 author: didjee2
 softdepend:
   - HolographicDisplays
+api-version: 1.13

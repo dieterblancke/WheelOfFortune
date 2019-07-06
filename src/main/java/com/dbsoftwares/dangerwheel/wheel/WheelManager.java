@@ -6,16 +6,15 @@ import com.dbsoftwares.dangerwheel.utils.objects.WheelRunData;
 import com.google.common.collect.Lists;
 import org.bukkit.Location;
 
-import java.lang.ref.WeakReference;
 import java.util.List;
 
 public abstract class WheelManager {
 
-    protected final WeakReference<Location> location;
+    protected final Location location;
     protected List<WheelRunData> wheelRuns = Lists.newArrayList();
 
     public WheelManager(final Location location) {
-        this.location = new WeakReference<>(location);
+        this.location = location;
 
         this.loadWheelRuns();
     }

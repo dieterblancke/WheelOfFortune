@@ -8,6 +8,7 @@ import com.dbsoftwares.dangerwheel.script.Script;
 import com.dbsoftwares.dangerwheel.script.ScriptData;
 import com.dbsoftwares.dangerwheel.utils.objects.CircleColor;
 import com.dbsoftwares.dangerwheel.wheel.WheelManager;
+import com.dbsoftwares.dangerwheel.wheel.block.BlockManager;
 import com.dbsoftwares.dangerwheel.wheel.hologram.HologramManager;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -111,7 +112,7 @@ public class DangerWheel extends JavaPlugin {
         if (hologram) {
             this.wheelManager = new HologramManager(location);
         } else {
-            // TODO: make BlockManager
+            this.wheelManager = new BlockManager(location);
         }
 
         this.wheelManager.spawnStandard();

@@ -11,9 +11,9 @@ import java.util.List;
 public class WheelCircle {
 
     private final List<CircleColor> colors;
-    private final int height;
-    private final int width;
-    private final int sectors;
+    protected final int height;
+    protected final int width;
+    protected final int sectors;
 
     public WheelCircle(final int height, final int width, final int sectors) {
         if (sectors > CircleColor.values().length) {
@@ -60,8 +60,6 @@ public class WheelCircle {
 
             for (double x = -maxblocks_x / 2 + 1; x <= maxblocks_x / 2 - 1; x++) {
                 if (shouldBeFilled(x, y, width_r, ratio)) {
-                    final int sector = getSectorNumber(x, y);
-
                     line.add(CircleColor.WHITE);
                 }
             }
@@ -107,7 +105,7 @@ public class WheelCircle {
         return lines;
     }
 
-    private int getSectorNumber(final double x, final double y) {
+    protected int getSectorNumber(final double x, final double y) {
         final double degreesPerSector = 360 / sectors;
         final double rad = Math.atan2(y, x);
         final double degrees = rad * (180 / Math.PI) + 180;
@@ -124,11 +122,11 @@ public class WheelCircle {
         return -1;
     }
 
-    private double distance(final double x, final double y, final double ratio) {
+    protected double distance(final double x, final double y, final double ratio) {
         return Math.sqrt((Math.pow(y * ratio, 2)) + Math.pow(x, 2));
     }
 
-    private boolean shouldBeFilled(final double x, final double y, final double radius, final float ratio) {
+    protected boolean shouldBeFilled(final double x, final double y, final double radius, final float ratio) {
         return distance(x, y, ratio) <= radius;
     }
 

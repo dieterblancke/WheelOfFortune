@@ -37,7 +37,7 @@ public enum CircleColor {
     }
 
     public Material getAsMaterial() {
-        return Material.valueOf(
+        return Material.getMaterial(
                 this.materialColorName + "_" + DangerWheel.getInstance().getConfiguration().getString("wheel.block.type")
         );
     }
