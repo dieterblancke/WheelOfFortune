@@ -11,8 +11,10 @@ import com.dbsoftwares.dangerwheel.wheel.WheelManager;
 import com.gmail.filoghost.holographicdisplays.api.Hologram;
 import com.gmail.filoghost.holographicdisplays.api.line.TextLine;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;
+import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.List;
@@ -25,6 +27,10 @@ public class HologramWheelTask extends BukkitRunnable {
     private final WheelCircle circle;
     private final WheelRunData runData;
     private final int startIdx;
+
+    @Setter
+    private Player executor;
+
 
     private int ticks = 0;
     private int runs = 0;
@@ -73,7 +79,7 @@ public class HologramWheelTask extends BukkitRunnable {
                                 .replace("{eventName}", data.getName())
                                 .replace("{color}", circle.finishColor().beautifiedName())
                 );
-                data.getScript().execute();
+                data.getScript().execute(executor);
             }
             new BukkitRunnable() {
 

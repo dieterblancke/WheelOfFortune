@@ -48,7 +48,7 @@ public class SpinSubCommand extends SubCommand {
                 final ISection section = DangerWheel.getInstance().getConfiguration().getSection("messages.wheel.starting");
 
                 if (runs <= 0) {
-                    manager.spawn();
+                    manager.spawn(player);
                     cancel();
 
                     Bukkit.broadcastMessage(Utils.c(section.getString("starting")));

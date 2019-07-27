@@ -5,6 +5,7 @@ import com.dbsoftwares.dangerwheel.utils.objects.WheelRun;
 import com.dbsoftwares.dangerwheel.utils.objects.WheelRunData;
 import com.google.common.collect.Lists;
 import org.bukkit.Location;
+import org.bukkit.entity.Player;
 
 import java.util.List;
 
@@ -39,7 +40,7 @@ public abstract class WheelManager {
 
     public abstract void spawnStandard();
 
-    public abstract void spawn();
+    public abstract void spawn(Player executor);
 
     public abstract void despawn();
 }

@@ -8,9 +8,11 @@ import com.dbsoftwares.dangerwheel.utils.objects.WheelRun;
 import com.dbsoftwares.dangerwheel.utils.objects.WheelRunData;
 import com.dbsoftwares.dangerwheel.wheel.WheelManager;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
+import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.List;
@@ -21,6 +23,9 @@ public class BlockWheelTask extends BukkitRunnable {
     private final WheelManager manager;
     private final BlockCircle circle;
     private final WheelRunData runData;
+
+    @Setter
+    private Player executor;
 
     private int ticks = 0;
     private int runs = 0;
@@ -75,7 +80,7 @@ public class BlockWheelTask extends BukkitRunnable {
                                 .replace("{eventName}", data.getName())
                                 .replace("{color}", circle.finishColor().beautifiedName())
                 );
-                data.getScript().execute();
+                data.getScript().execute(executor);
             }
             new BukkitRunnable() {
 

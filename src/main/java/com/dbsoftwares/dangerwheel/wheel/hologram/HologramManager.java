@@ -11,7 +11,7 @@ import com.dbsoftwares.dangerwheel.wheel.WheelManager;
 import com.gmail.filoghost.holographicdisplays.api.Hologram;
 import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
 import org.bukkit.Location;
-import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitTask;
 
 import java.util.List;
@@ -22,7 +22,7 @@ public class HologramManager extends WheelManager {
     private final Random random;
 
     private Hologram hologram;
-    private BukkitRunnable runnable;
+    private HologramWheelTask runnable;
     private BukkitTask task;
 
     public HologramManager(final Location location) {
@@ -59,7 +59,8 @@ public class HologramManager extends WheelManager {
     }
 
     @Override
-    public void spawn() {
+    public void spawn(final Player executor) {
+        runnable.setExecutor(executor);
         task = runnable.runTaskTimer(DangerWheel.getInstance(), 0, 1);
     }
 

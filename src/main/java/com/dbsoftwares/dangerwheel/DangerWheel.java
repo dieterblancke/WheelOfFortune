@@ -4,8 +4,10 @@ import com.dbsoftwares.commandapi.CommandManager;
 import com.dbsoftwares.configuration.api.IConfiguration;
 import com.dbsoftwares.dangerwheel.commands.DangerWheelCommand;
 import com.dbsoftwares.dangerwheel.commands.subcommands.TestSubCommand;
+import com.dbsoftwares.dangerwheel.listeners.PlayerListener;
 import com.dbsoftwares.dangerwheel.script.Script;
 import com.dbsoftwares.dangerwheel.script.ScriptData;
+import com.dbsoftwares.dangerwheel.storage.AbstractStorageManager;
 import com.dbsoftwares.dangerwheel.utils.objects.CircleColor;
 import com.dbsoftwares.dangerwheel.wheel.WheelManager;
 import com.dbsoftwares.dangerwheel.wheel.block.BlockManager;
@@ -13,6 +15,7 @@ import com.dbsoftwares.dangerwheel.wheel.hologram.HologramManager;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import lombok.Getter;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.slf4j.Logger;
@@ -25,6 +28,7 @@ import java.nio.file.Files;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import com.dbsoftwares.dangerwheel.storage.AbstractStorageManager.StorageType;
 
 public class DangerWheel extends JavaPlugin {
 
@@ -49,6 +53,9 @@ public class DangerWheel extends JavaPlugin {
     @Getter
     private WheelManager wheelManager;
 
+    @Getter
+    private AbstractStorageManager storage;
+
     @Override
     public void onEnable() {
         instance = this;
@@ -57,6 +64,28 @@ public class DangerWheel extends JavaPlugin {
         this.loadColorEvents();
 
         CommandManager.getInstance().registerCommand(new DangerWheelCommand());
+        Bukkit.getServer().getPluginManager().registerEvents(new PlayerListener(), this);
+
+        StorageType type;
+        final String typeString = configuration.getString("storage.type").toUpperCase();
+        try {
+
+            if (typeString.contains(":")) {
+                type = StorageType.valueOf(typeString.split(":")[0]);
+            } else {
+                type = StorageType.valueOf(typeString);
+            }
+        } catch (IllegalArgumentException e) {
+            type = StorageType.MYSQL;
+        }
+        try {
+            storage = typeString.contains(":")
+                    ? type.getManager().getConstructor(String.class).newInstance(typeString.split(":")[1])
+                    : type.getManager().getConstructor().newInstance();
+            storage.initializeStorage();
+        } catch (Exception e) {
+            log.error("An error occured: ", e);
+        }
     }
 
     @Override

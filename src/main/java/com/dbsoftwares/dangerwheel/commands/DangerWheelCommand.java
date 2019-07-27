@@ -1,10 +1,7 @@
 package com.dbsoftwares.dangerwheel.commands;
 
 import com.dbsoftwares.commandapi.command.MainSpigotCommand;
-import com.dbsoftwares.dangerwheel.commands.subcommands.ReloadSubCommand;
-import com.dbsoftwares.dangerwheel.commands.subcommands.SetWheelLocationSubCommand;
-import com.dbsoftwares.dangerwheel.commands.subcommands.SpinSubCommand;
-import com.dbsoftwares.dangerwheel.commands.subcommands.TestSubCommand;
+import com.dbsoftwares.dangerwheel.commands.subcommands.*;
 import com.google.common.collect.Lists;
 
 public class DangerWheelCommand extends MainSpigotCommand {
@@ -16,5 +13,7 @@ public class DangerWheelCommand extends MainSpigotCommand {
         subCommands.add(new TestSubCommand());
         subCommands.add(new SetWheelLocationSubCommand());
         subCommands.add(new SpinSubCommand());
+        subCommands.add(new OptInSubCommand());
+        subCommands.add(new OptOutSubCommand());
     }
 }

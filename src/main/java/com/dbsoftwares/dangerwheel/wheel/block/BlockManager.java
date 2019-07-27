@@ -7,7 +7,7 @@ import com.dbsoftwares.dangerwheel.utils.objects.CircleColor;
 import com.dbsoftwares.dangerwheel.utils.objects.WheelRunData;
 import com.dbsoftwares.dangerwheel.wheel.WheelManager;
 import org.bukkit.Location;
-import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitTask;
 
 import java.util.Random;
@@ -16,7 +16,7 @@ public class BlockManager extends WheelManager {
 
     private final Random random;
 
-    private BukkitRunnable runnable;
+    private BlockWheelTask runnable;
     private BukkitTask task;
 
     public BlockManager(final Location location) {
@@ -44,7 +44,8 @@ public class BlockManager extends WheelManager {
     }
 
     @Override
-    public void spawn() {
+    public void spawn(final Player executor) {
+        runnable.setExecutor(executor);
         task = runnable.runTaskTimer(DangerWheel.getInstance(), 0, 1);
     }
 

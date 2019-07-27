@@ -52,7 +52,7 @@ public class TestSubCommand extends SubCommand {
                 if (runs <= 0) {
                     final WheelManager manager = new HologramManager(location);
                     manager.spawnStandard();
-                    manager.spawn();
+                    manager.spawn(player);
                     cancel();
 
                     Bukkit.broadcastMessage(Utils.c(section.getString("starting")));

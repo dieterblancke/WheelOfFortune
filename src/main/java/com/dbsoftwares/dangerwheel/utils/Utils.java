@@ -3,10 +3,36 @@ package com.dbsoftwares.dangerwheel.utils;
 import com.dbsoftwares.configuration.api.IConfiguration;
 import com.dbsoftwares.dangerwheel.DangerWheel;
 import net.md_5.bungee.api.ChatColor;
+import org.bukkit.entity.Player;
+import org.bukkit.metadata.FixedMetadataValue;
+import org.bukkit.metadata.MetadataValue;
 
 public class Utils {
 
+    public static final String OPTED_IN_KEY = "DW_OPTED_IN";
+
     private Utils() {
+    }
+
+    public static void setMetaData(final Player player, final String key, final Object value) {
+        // Removing first to be sure
+        player.removeMetadata(key, DangerWheel.getInstance());
+
+        // Setting meta data
+        player.setMetadata(key, new FixedMetadataValue(DangerWheel.getInstance(), value));
+    }
+
+    public static Object getMetaData(final Player player, final String key) {
+        return getMetaData(player, key, null);
+    }
+
+    public static Object getMetaData(final Player player, final String key, Object defaultValue) {
+        for (MetadataValue meta : player.getMetadata(key)) {
+            if (meta.getOwningPlugin().getName().equalsIgnoreCase(DangerWheel.getInstance().getName())) {
+                return meta.value();
+            }
+        }
+        return defaultValue;
     }
 
     public static String c(final String message) {
