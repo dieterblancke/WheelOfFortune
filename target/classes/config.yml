@@ -17,7 +17,7 @@ storage:
   username: 'username'
   # The password corresponding to the username above
   password: 'password'
-  # Should DonatorJoinPlus try to establish a SSL connection? (only for SQL)
+  # Should DangerWheel try to establish a SSL connection? (only for SQL)
   useSSL: true
 
   pool:
@@ -31,7 +31,7 @@ storage:
     min-idle: 5
     # Maximum lifetime of a connection. Time in seconds.
     max-lifetime: 1500
-    # How long should DonatorJoinPlus wait before timing out a connection?
+    # How long should DangerWheel wait before timing out a connection?
     connection-timeout: 8
 
 wheel:
