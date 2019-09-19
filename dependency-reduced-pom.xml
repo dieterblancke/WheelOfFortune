@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.dbsoftwares.dangerwheel</groupId>
   <artifactId>DangerWheel</artifactId>
-  <version>0.0.2</version>
+  <version>0.0.3</version>
   <build>
     <defaultGoal>clean package install</defaultGoal>
     <resources>

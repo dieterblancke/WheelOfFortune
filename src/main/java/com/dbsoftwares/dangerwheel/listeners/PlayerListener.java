@@ -11,6 +11,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerLoginEvent;
 
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
@@ -21,6 +22,7 @@ public class PlayerListener implements Listener {
     private final LoadingCache<UUID, CompletableFuture<Boolean>> loadingCache = CacheBuilder.newBuilder()
             .expireAfterWrite(15, TimeUnit.SECONDS)
             .build(new CacheLoader<UUID, CompletableFuture<Boolean>>() {
+                @ParametersAreNonnullByDefault
                 public CompletableFuture<Boolean> load(final UUID uuid) {
                     return CompletableFuture.supplyAsync(() -> DangerWheel.getInstance().getStorage().isOptedIn(uuid));
                 }
