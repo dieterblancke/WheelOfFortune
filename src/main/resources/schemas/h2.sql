@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS dw_data
+CREATE TABLE IF NOT EXISTS wof_data
 (
     uuid VARCHAR(36) NOT NULL,
     PRIMARY KEY (uuid)

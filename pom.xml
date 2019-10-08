@@ -4,8 +4,8 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.dbsoftwares.dangerwheel</groupId>
-    <artifactId>DangerWheel</artifactId>
+    <groupId>com.dbsoftwares.wheeloffortune</groupId>
+    <artifactId>WheelOfFortune</artifactId>
     <version>0.0.3</version>
 
     <repositories>
@@ -88,7 +88,7 @@
     </dependencies>
 
     <build>
-        <finalName>DangerWheel v${project.version}</finalName>
+        <finalName>WheelOfFortune v${project.version}</finalName>
         <defaultGoal>clean package install</defaultGoal>
         <plugins>
             <plugin>

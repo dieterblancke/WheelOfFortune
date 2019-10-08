@@ -17,7 +17,7 @@ storage:
   username: 'username'
   # The password corresponding to the username above
   password: 'password'
-  # Should DangerWheel try to establish a SSL connection? (only for SQL)
+  # Should WheelOfFortune try to establish a SSL connection? (only for SQL)
   useSSL: true
 
   pool:
@@ -31,7 +31,7 @@ storage:
     min-idle: 5
     # Maximum lifetime of a connection. Time in seconds.
     max-lifetime: 1500
-    # How long should DangerWheel wait before timing out a connection?
+    # How long should WheelOfFortune wait before timing out a connection?
     connection-timeout: 8
 
 wheel:
@@ -71,7 +71,7 @@ sounds:
   finish: 'ENTITY_FIREWORK_ROCKET_LARGE_BLAST_FAR'
 
 messages:
-  prefix: '&c&lDangerWheel &8» '
+  prefix: '&c&lWheelOfFortune &8» '
 
   not-for-console: '&eThe console cannot execute this command.'
   wheel:
@@ -92,13 +92,13 @@ messages:
     location-set: '&eThe danger wheel location has been set!'
     error: '&cAn error occured, please &4check the console &cfor more info!'
 
-  optin: '&eYou are now opting into the &bDangerWheel events&e!'
-  optout: '&eYou are now opting out of the &bDangerWheel events&e!'
+  optin: '&eYou are now opting into the &bWheelOfFortune events&e!'
+  optout: '&eYou are now opting out of the &bWheelOfFortune events&e!'
 
 # Every color that does not have an event bound to it will have a random event from this list.
 events:
   - name: 'Change World Difficulty'
     script: 'changediff.js'
     # List of available colors can be found at:
-    # https://git.dbsoftwares.eu/dbsoftwares/dangerwheel/blob/master/src/main/java/com/dbsoftwares/dangerwheel/utils/objects/CircleColor.java
+    # https://git.dbsoftwares.eu/dbsoftwares/fortunewheel/blob/master/src/main/java/com/dbsoftwares/wheeloffortune/utils/objects/CircleColor.java
     color: 'YELLOW'

@@ -1,5 +1,5 @@
-name: DangerWheel
-main: com.dbsoftwares.dangerwheel.DangerWheel
+name: ${project.name}
+main: com.dbsoftwares.wheeloffortune.WheelOfFortune
 version: ${project.version}
 author: didjee2
 softdepend:
